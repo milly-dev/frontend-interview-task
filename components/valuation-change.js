@@ -10,28 +10,26 @@ import {
   AccountSection,
   InfoText,
 } from "../modules/property-details/style";
+import {
+  getAnnualAppreciationPercentage,
+  getSincePurchasePercentage,
+  getSincePurchase,
+} from "../utils/helpers";
 
 const ValuationChange = ({ account }) => {
+  const sincePurchase = getSincePurchase(account);
+
   const originalPurchasePriceDate = new Date(account.originalPurchasePriceDate);
 
-  // Calculation for valuation difference
-  const valuationDifference =
-    account.recentValuation.amount - account.originalPurchasePrice;
+  const sincePurchasePercentage = getSincePurchasePercentage(
+    sincePurchase,
+    account
+  );
 
-  // Calculation for valuation difference in percentage
-  const valuationDifferencePercentage =
-    (valuationDifference / account.originalPurchasePrice) * 100;
-
-  //Get number of years since purchase
-  const date = new Date();
-  let year = date.getFullYear();
-
-  const numberOfYearsSincePurchase =
-    year - originalPurchasePriceDate.getFullYear();
-
-  // Calculation for annual valuation in percentage
-  const AnnualValuationPercentage =
-    valuationDifferencePercentage / numberOfYearsSincePurchase;
+  const annualAppreciationPercentage = getAnnualAppreciationPercentage(
+    sincePurchasePercentage,
+    originalPurchasePriceDate
+  );
 
   return (
     <AccountSection>
@@ -63,12 +61,12 @@ const ValuationChange = ({ account }) => {
               {new Intl.NumberFormat("en-GB", {
                 style: "currency",
                 currency: "GBP",
-              }).format(valuationDifference)}
-              {` (${valuationDifferencePercentage.toFixed(2)}%)`}
+              }).format(sincePurchase)}
+              {` (${sincePurchasePercentage.toFixed(2)}%)`}
             </Chip>
           </AccountListChipItem>
           <AccountListChipItem>
-            <Chip>{`${AnnualValuationPercentage.toFixed(2)}%`} </Chip>
+            <Chip>{`${annualAppreciationPercentage.toFixed(2)}%`} </Chip>
           </AccountListChipItem>
         </AccountList>
       </ColumnContainer>
