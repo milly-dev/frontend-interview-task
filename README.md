@@ -32,7 +32,14 @@ Consider opportunities to reduce repetition in the code and increase legibility
 We also ask that you update the readme with answers to the following questions 
 
 1. Given more time, what other changes you would have liked to make?
+ ```
+If I had more time to work on the project, I would have organized the way we handle the look of the website with Storybook. This would have help to keep the design in one place and make it easier to manage.
+ ```
+
 2. What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas.
+ ```
+If I make some changes to the layout, users will have a better experience. It can be done by making the page more organised and removing any extra spaces that are not needed. This will help users find information more quickly and easily. Additionally, adding some graphics can make the page more interesting and help users visualise the property information better. For example: charts showing how the property's value has changed over time.
+ ```
 
 ----
 
