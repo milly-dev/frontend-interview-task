@@ -6,7 +6,7 @@ import {
   AccountSection,
   InfoText,
 } from "../modules/property-details/style";
-import RowContainer from "./row-container";
+import RowContainer from "./ui/row-container";
 
 const Mortgage = ({ account }) => {
   return (

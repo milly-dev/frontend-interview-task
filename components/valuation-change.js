@@ -1,7 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
-import { Chip } from "./chip";
-import ColumnContainer from "./column-container";
+import { Chip } from "./ui/chip";
+import ColumnContainer from "./ui/column-container";
 import {
   AccountLabel,
   AccountList,

@@ -1,5 +1,5 @@
 import Detail from "../modules/property-details";
-import {Banner} from "../components/banner"
+import { Banner } from "../components/ui/banner";
 
 export default function PropertyDetails() {
   return (

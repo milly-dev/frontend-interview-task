@@ -1,5 +1,5 @@
 import React from "react";
-import RowContainer from "./row-container";
+import RowContainer from "./ui/row-container";
 import {
   AccountLabel,
   AccountList,
