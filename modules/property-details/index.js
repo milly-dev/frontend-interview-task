@@ -3,10 +3,18 @@ import { add, format } from "date-fns";
 import React from "react";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
+import ColumnContainer from "../../components/column-container";
 import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
+  AccountHeadline,
+  AccountLabel,
+  AccountList,
+  AccountListItem,
+  AccountListChipItem,
+  AccountSection,
+  InfoText,
+  Inset,
 } from "./style";
-
+import { Chip } from "../../components/chip";
 
 const account = {
   uid: "65156cdc-5cfd-4b34-b626-49c83569f35e",
@@ -40,6 +48,27 @@ const Detail = ({}) => {
     mortgage = account.associatedMortgages[0];
   }
 
+  const originalPurchasePriceDate = new Date(account.originalPurchasePriceDate);
+
+  // Calculation for valuation difference - sincePurchase
+  const sincePurchase =
+    account.recentValuation.amount - account.originalPurchasePrice;
+
+  // Calculation for valuation difference in percentage - sincePurchasePercent
+  const sincePurchasePercentage =
+    (sincePurchase / account.originalPurchasePrice) * 100;
+
+  //Get number of years since purchase
+  const date = new Date();
+  let year = date.getFullYear();
+
+  const numberOfYearsSincePurchase =
+    year - originalPurchasePriceDate.getFullYear();
+
+  // Calculation for annual valuation in percentage - annualAppreciation
+  const AnnualValuationPercentage =
+    sincePurchasePercentage / numberOfYearsSincePurchase;
+
   return (
     <Inset>
       <AccountSection>
@@ -51,24 +80,73 @@ const Detail = ({}) => {
           }).format(account.recentValuation.amount)}
         </AccountHeadline>
         <AccountList>
-          <AccountListItem><InfoText>
-            {`Last updated ${format(lastUpdate, "do MMM yyyy")}`}
-          </InfoText></AccountListItem>
-          <AccountListItem><InfoText>
-            {`Next update ${format(
-              add(lastUpdate, { days: account.updateAfterDays }),
-              "do MMM yyyy"
-            )}`}
-          </InfoText></AccountListItem>
+          <AccountListItem>
+            <InfoText>
+              {`Last updated ${format(lastUpdate, "do MMM yyyy")}`}
+            </InfoText>
+          </AccountListItem>
+          <AccountListItem>
+            <InfoText>
+              {`Next update ${format(
+                add(lastUpdate, { days: account.updateAfterDays }),
+                "do MMM yyyy"
+              )}`}
+            </InfoText>
+          </AccountListItem>
         </AccountList>
+      </AccountSection>
+      <AccountSection>
+        <AccountLabel>Valuation change</AccountLabel>
+        <ColumnContainer>
+          <AccountList>
+            <AccountListItem>
+              <InfoText>
+                {`Purchased for `}
+                <span style={{ fontWeight: "bold" }}>
+                  {new Intl.NumberFormat("en-GB", {
+                    style: "currency",
+                    currency: "GBP",
+                  }).format(account.originalPurchasePrice)}
+                </span>
+                {` in ${format(originalPurchasePriceDate, "MMM yyyy")}`}
+              </InfoText>
+            </AccountListItem>
+            <AccountListItem>
+              <InfoText>Since purchased</InfoText>
+            </AccountListItem>
+            <AccountListItem>
+              <InfoText>Annual appreciation</InfoText>
+            </AccountListItem>
+          </AccountList>
+          <AccountList>
+            <AccountListChipItem>
+              <Chip>
+                {new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                }).format(sincePurchase)}
+                {` (${sincePurchasePercentage.toFixed(2)}%)`}
+              </Chip>
+            </AccountListChipItem>
+            <AccountListChipItem>
+              <Chip>{`${AnnualValuationPercentage.toFixed(2)}%`} </Chip>
+            </AccountListChipItem>
+          </AccountList>
+        </ColumnContainer>
       </AccountSection>
       <AccountSection>
         <AccountLabel>Property details</AccountLabel>
         <RowContainer>
           <AccountList>
-            <AccountListItem><InfoText>{account.name}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.bankName}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.postcode}</InfoText></AccountListItem>
+            <AccountListItem>
+              <InfoText>{account.name}</InfoText>
+            </AccountListItem>
+            <AccountListItem>
+              <InfoText>{account.bankName}</InfoText>
+            </AccountListItem>
+            <AccountListItem>
+              <InfoText>{account.postcode}</InfoText>
+            </AccountListItem>
           </AccountList>
         </RowContainer>
       </AccountSection>
@@ -80,15 +158,19 @@ const Detail = ({}) => {
             onClick={() => alert("You have navigated to the mortgage page")}
           >
             <AccountList>
-              <AccountListItem><InfoText>
-                {new Intl.NumberFormat("en-GB", {
-                  style: "currency",
-                  currency: "GBP",
-                }).format(
-                  Math.abs(account.associatedMortgages[0].currentBalance)
-                )}
-              </InfoText></AccountListItem>
-              <AccountListItem><InfoText>{account.associatedMortgages[0].name}</InfoText></AccountListItem>
+              <AccountListItem>
+                <InfoText>
+                  {new Intl.NumberFormat("en-GB", {
+                    style: "currency",
+                    currency: "GBP",
+                  }).format(
+                    Math.abs(account.associatedMortgages[0].currentBalance)
+                  )}
+                </InfoText>
+              </AccountListItem>
+              <AccountListItem>
+                <InfoText>{account.associatedMortgages[0].name}</InfoText>
+              </AccountListItem>
             </AccountList>
           </RowContainer>
         </AccountSection>
