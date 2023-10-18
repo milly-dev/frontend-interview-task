@@ -7,6 +7,7 @@ import {
   InfoText,
 } from "../modules/property-details/style";
 import RowContainer from "./ui/row-container";
+import { formatToCurrency } from "../utils/formating";
 
 const Mortgage = ({ account }) => {
   return (
@@ -19,10 +20,7 @@ const Mortgage = ({ account }) => {
         <AccountList>
           <AccountListItem>
             <InfoText>
-              {new Intl.NumberFormat("en-GB", {
-                style: "currency",
-                currency: "GBP",
-              }).format(
+              {formatToCurrency(
                 Math.abs(account.associatedMortgages[0].currentBalance)
               )}
             </InfoText>

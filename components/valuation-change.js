@@ -15,6 +15,7 @@ import {
   getSincePurchasePercentage,
   getSincePurchase,
 } from "../utils/helpers";
+import { formatToCurrency } from "../utils/formating";
 
 const ValuationChange = ({ account }) => {
   const sincePurchase = getSincePurchase(account);
@@ -40,10 +41,7 @@ const ValuationChange = ({ account }) => {
             <InfoText>
               {`Purchased for `}
               <span style={{ fontWeight: "bold" }}>
-                {new Intl.NumberFormat("en-GB", {
-                  style: "currency",
-                  currency: "GBP",
-                }).format(account.originalPurchasePrice)}
+                {formatToCurrency(account.originalPurchasePrice)}
               </span>
               {` in ${format(originalPurchasePriceDate, "MMM yyyy")}`}
             </InfoText>
@@ -58,10 +56,7 @@ const ValuationChange = ({ account }) => {
         <AccountList>
           <AccountListChipItem>
             <Chip>
-              {new Intl.NumberFormat("en-GB", {
-                style: "currency",
-                currency: "GBP",
-              }).format(sincePurchase)}
+              {formatToCurrency(sincePurchase)}
               {` (${sincePurchasePercentage.toFixed(2)}%)`}
             </Chip>
           </AccountListChipItem>

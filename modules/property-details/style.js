@@ -37,7 +37,6 @@ export const AccountSection = styled.div`
 
 export const AccountListItem = styled.div`
   display: flex;
-
   &:not(:last-of-type) {
     margin-bottom: ${(props) => props.theme.space.m};
   }
