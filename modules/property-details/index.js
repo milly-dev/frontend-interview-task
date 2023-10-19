@@ -1,12 +1,13 @@
 /* eslint-disable max-statements */
-import { add, format } from "date-fns";
 import React from "react";
-import { Button } from "../../components/button";
-import RowContainer from "../../components/row-container";
+import { Button } from "../../components/ui/button";
 import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
+  Inset,
 } from "./style";
-
+import EstimatedValue from "../../components/estimated-value";
+import PropertyDetails from "../../components/property-details";
+import Mortgage from "../../components/mortgage";
+import ValuationChange from "../../components/valuation-change";
 
 const account = {
   uid: "65156cdc-5cfd-4b34-b626-49c83569f35e",
@@ -35,64 +36,16 @@ const account = {
 
 const Detail = ({}) => {
   let mortgage;
-  const lastUpdate = new Date(account.lastUpdate);
   if (account.associatedMortgages.length) {
     mortgage = account.associatedMortgages[0];
   }
 
   return (
     <Inset>
-      <AccountSection>
-        <AccountLabel>Estimated Value</AccountLabel>
-        <AccountHeadline>
-          {new Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP",
-          }).format(account.recentValuation.amount)}
-        </AccountHeadline>
-        <AccountList>
-          <AccountListItem><InfoText>
-            {`Last updated ${format(lastUpdate, "do MMM yyyy")}`}
-          </InfoText></AccountListItem>
-          <AccountListItem><InfoText>
-            {`Next update ${format(
-              add(lastUpdate, { days: account.updateAfterDays }),
-              "do MMM yyyy"
-            )}`}
-          </InfoText></AccountListItem>
-        </AccountList>
-      </AccountSection>
-      <AccountSection>
-        <AccountLabel>Property details</AccountLabel>
-        <RowContainer>
-          <AccountList>
-            <AccountListItem><InfoText>{account.name}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.bankName}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.postcode}</InfoText></AccountListItem>
-          </AccountList>
-        </RowContainer>
-      </AccountSection>
-      {mortgage && (
-        <AccountSection>
-          <AccountLabel>Mortgage</AccountLabel>
-          <RowContainer
-            // This is a dummy action
-            onClick={() => alert("You have navigated to the mortgage page")}
-          >
-            <AccountList>
-              <AccountListItem><InfoText>
-                {new Intl.NumberFormat("en-GB", {
-                  style: "currency",
-                  currency: "GBP",
-                }).format(
-                  Math.abs(account.associatedMortgages[0].currentBalance)
-                )}
-              </InfoText></AccountListItem>
-              <AccountListItem><InfoText>{account.associatedMortgages[0].name}</InfoText></AccountListItem>
-            </AccountList>
-          </RowContainer>
-        </AccountSection>
-      )}
+      <EstimatedValue account={account} />
+      <ValuationChange account={account} />
+      <PropertyDetails account={account} />
+      {mortgage && <Mortgage account={account} />}
       <Button
         // This is a dummy action
         onClick={() => alert("You have navigated to the edit account page")}

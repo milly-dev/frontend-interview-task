@@ -37,7 +37,14 @@ export const AccountSection = styled.div`
 
 export const AccountListItem = styled.div`
   display: flex;
+  &:not(:last-of-type) {
+    margin-bottom: ${(props) => props.theme.space.m};
+  }
+`;
 
+export const AccountListChipItem = styled.div`
+  display: flex;
+  justify-content: flex-end;
   &:not(:last-of-type) {
     margin-bottom: ${(props) => props.theme.space.m};
   }
